@@ -171,6 +171,8 @@ function numberWithCommas(num) {
 
 //display details on each country on click
 function renderCountryDetail(country) {
+  controlsSections.style.display = "none";
+
   // Fallback if country not available
   if (!country) {
     return `<p>Country data not found.</p>`;
@@ -242,6 +244,7 @@ const routes = {
   "/": () => {
     renderCountriesData(countriesData);
     applyDarkModeToDynamicElements();
+    controlsSections.style.display = "block";
   },
   "/country-details": (countryData) => {
     countriesContainer.innerHTML = renderCountryDetail(countryData);
