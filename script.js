@@ -22,6 +22,7 @@ themeToggleButton.addEventListener("click", function () {
   const backButton = document.querySelector(".back-button");
   const borderTags = document.querySelectorAll(".tag");
   const countryCard = document.querySelectorAll(".country-card");
+  const backArrow = document.querySelector(".back-arrow");
 
   const isDark = themeIcon.src.includes("darkModeIcon");
 
@@ -31,6 +32,7 @@ themeToggleButton.addEventListener("click", function () {
     themeText.style.color = "white";
     searchIcon.style.filter = " invert(1)";
     filterArrow.style.filter = "invert(1)";
+    // backArrow.style.filter = "invert(1)";
     currentTheme = "dark";
   } else {
     themeIcon.src = themeIcon.src.replace("LightModeIcon", "darkModeIcon");
@@ -38,6 +40,8 @@ themeToggleButton.addEventListener("click", function () {
     themeText.style.color = "black";
     searchIcon.style.filter = " invert(0)";
     filterArrow.style.filter = "invert(0)";
+    // backArrow.style.filter = "invert(0)";
+
     currentTheme = "light";
   }
 
@@ -51,6 +55,7 @@ themeToggleButton.addEventListener("click", function () {
   controlsSections.classList.toggle("dark");
   header.classList.toggle("dark");
   backButton.classList.toggle("dark");
+  backArrow.classList.toggle("dark");
   borderTags.forEach((ele) => ele.classList.toggle("dark"));
 });
 
@@ -95,7 +100,12 @@ function applyDarkModeToDynamicElements() {
     });
 
     const backButton = document.querySelector(".back-button");
-    if (backButton) backButton.classList.add("dark");
+    const backArrow = document.querySelector(".back-arrow");
+
+    if (backButton) {
+      backButton.classList.add("dark");
+      backArrow.classList.add("dark");
+    }
   }
 }
 

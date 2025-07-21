@@ -112,7 +112,9 @@ a{
   width: 17px;
   height: 17px;
 }
-
+.back-arrow.dark{
+  filter: invert(1);
+}
 .country-details-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -233,10 +235,12 @@ a{
   padding: 24px 0;
 }
 
-.header-bar.dark, .back-button.dark, .tag.dark{
+.header-bar.dark,.back-button.dark, .tag.dark{
   background-color: var(--dark-mode-bg-1);
   color: var(--dark-mode-text);
 }
+
+
 
 header.dark{
   background-color: var(--dark-mode-bg-2);
