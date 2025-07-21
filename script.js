@@ -14,24 +14,31 @@ const controlsSections = document.querySelector(".controls-section");
 const header = document.querySelector("header");
 
 let countriesData = [];
+let currentTheme = "light";
 
 //dark and light mode toggle
 themeToggleButton.addEventListener("click", function () {
   const themeText = document.querySelector(".dark-mode-text");
+  const backButton = document.querySelector(".back-button");
+  const borderTags = document.querySelectorAll(".tag");
   const countryCard = document.querySelectorAll(".country-card");
 
-  if (themeIcon.src.includes("darkModeIcon")) {
+  const isDark = themeIcon.src.includes("darkModeIcon");
+
+  if (isDark) {
     themeIcon.src = themeIcon.src.replace("darkModeIcon", "LightModeIcon");
     themeText.textContent = "Light Mode";
     themeText.style.color = "white";
     searchIcon.style.filter = " invert(1)";
     filterArrow.style.filter = "invert(1)";
+    currentTheme = "dark";
   } else {
     themeIcon.src = themeIcon.src.replace("LightModeIcon", "darkModeIcon");
     themeText.textContent = "Dark Mode";
     themeText.style.color = "black";
     searchIcon.style.filter = " invert(0)";
     filterArrow.style.filter = "invert(0)";
+    currentTheme = "light";
   }
 
   const headerBar = document.querySelector(".header-bar");
@@ -43,6 +50,8 @@ themeToggleButton.addEventListener("click", function () {
   container.classList.toggle("dark");
   controlsSections.classList.toggle("dark");
   header.classList.toggle("dark");
+  backButton.classList.toggle("dark");
+  borderTags.forEach((ele) => ele.classList.toggle("dark"));
 });
 
 //filter out countries based on region
@@ -53,6 +62,7 @@ regionOptions.map((ele) =>
       ele.region.toLowerCase().includes(selectedRegion)
     );
     renderCountriesData(filteredCountries);
+    applyDarkModeToDynamicElements();
   })
 );
 
@@ -68,8 +78,26 @@ searchInput.addEventListener("input", function () {
   const filteredData = countriesData?.filter((item) =>
     item?.name?.toLowerCase().includes(enteredInput)
   );
-  renderCountriesData(filteredData);
+  filteredData.length
+    ? renderCountriesData(filteredData)
+    : (countriesContainer.innerHTML = `<h2>Please Check Country Name and Try Again!</h2>`);
+  applyDarkModeToDynamicElements(); // RE-APPLY DARK TO NEW ELEMENTS
 });
+
+// FUNCTION TO APPLY DARK MODE CSS TO DYNAMICALLY RENDERED ELEMENTS
+function applyDarkModeToDynamicElements() {
+  if (currentTheme === "dark") {
+    document.querySelectorAll(".country-card").forEach((card) => {
+      card.classList.add("dark");
+    });
+    document.querySelectorAll(".tag").forEach((tag) => {
+      tag.classList.add("dark");
+    });
+
+    const backButton = document.querySelector(".back-button");
+    if (backButton) backButton.classList.add("dark");
+  }
+}
 
 //load country data intially
 function fetchCountriesData() {
@@ -201,9 +229,13 @@ fetchCountriesData();
 
 //routing for displaying country details
 const routes = {
-  "/": () => renderCountriesData(countriesData),
+  "/": () => {
+    renderCountriesData(countriesData);
+    applyDarkModeToDynamicElements();
+  },
   "/country-details": (countryData) => {
     countriesContainer.innerHTML = renderCountryDetail(countryData);
+    applyDarkModeToDynamicElements();
   },
 };
 
